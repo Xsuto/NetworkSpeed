@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     </head>
     <body>
         <div id="app">
@@ -39,37 +39,27 @@
             </div>
         </div>
         <script>
-            const {ref,computed ,createApp} = Vue
-            const app = createApp({
-                setup(){
-                    const value = ref(0)
-                    const NetworkSpeed = ref(10)
-                    const inputType = ref(8)
-                    const inputPrefix = ref(1024 * 1024 * 1024)
-                    const outputType = ref(1)
-                    const outputPrefix = ref(1024 * 1024)
-                    
-                    const output = computed(() => {
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    value: 0,
+                    NetworkSpeed: 10,
+                    inputType: 8,
+                    inputPrefix: 1024 * 1024 * 1024,
+                    outputType: 1,
+                    outputPrefix: 1024 * 1024,
+                },
+                computed: {
+                    output() {
                         const output =
-                            ((value.value * inputPrefix.value * inputType.value) /
-                            (NetworkSpeed.value * outputPrefix.value *
-                            outputType.value))/60;
+                            ((this.value * this.inputPrefix * this.inputType) /
+                            (this.NetworkSpeed * this.outputPrefix *
+                            this.outputType))/60;
                          if(isNaN(output) || output === Infinity) return 0   
                         return output.toFixed(2)
-                    })
-        
-                    return {
-                        value,output,
-                        NetworkSpeed,
-                        inputType,
-                        inputPrefix,
-                        outputType,
-                        outputPrefix
-                    }
+                    },
                 },
-
             });
-            app.mount('#app')
         </script>
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,300&display=swap");
